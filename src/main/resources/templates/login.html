@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <meta name="google-signin-client_id" content="114213467514-5uoc4jf7ug127q9p3ello8ksqo5vd22s.apps.googleusercontent.com"/>
+</head>
+<body>
+
+<script >
+    function onSignInGoogle(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:8080/logincallback?sso_type=google');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            console.log('Signed in as: ' + xhr.responseText);
+           var element =  document.getElementById("email");
+            element.innerHTML = element.innerHTML + xhr.responseText;
+        };
+        xhr.send('idtoken=' + id_token);
+    }
+</script>
+<p>Hello <div id="email"></div></p>
+    <div class="g-signin2" data-onsuccess="onSignInGoogle"></div>
+
+</body>
+</html>
